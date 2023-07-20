@@ -5,17 +5,19 @@
 import uuid
 import redis
 from typing import Callable, Union
+from functools import wraps
 
 
 class Cache:
     '''represents an object for storing data in a Redis data storage.
     '''
     def __init__(self) -> None:
-        '''Initializes a Cache instance.
+        '''initializes a Cache instance.
         '''
         self._redis = redis.Redis()
         self._redis.flushdb(True)
 
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         '''stores a value in a Redis data storage and returns the key.
         '''
